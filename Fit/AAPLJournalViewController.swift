@@ -36,7 +36,7 @@ class AAPLJournalViewController: UITableViewController, HavingHealthStore {
         
         self.updateJournal()
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateJournal", name: UIApplicationDidBecomeActiveNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(AAPLJournalViewController.updateJournal), name: UIApplicationDidBecomeActiveNotification, object: nil)
     }
     
     deinit {
@@ -45,7 +45,7 @@ class AAPLJournalViewController: UITableViewController, HavingHealthStore {
     
     //MARK: - Reading HealthKit Data
     
-    private func updateJournal() {
+    @objc private func updateJournal() {
         let calendar = NSCalendar.currentCalendar()
         
         let now = NSDate()

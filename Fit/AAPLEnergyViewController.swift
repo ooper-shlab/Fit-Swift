@@ -54,11 +54,11 @@ class EnergyViewController : UITableViewController, HavingHealthStore {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        self.refreshControl?.addTarget(self, action: "refreshStatistics", forControlEvents: .ValueChanged)
+        self.refreshControl?.addTarget(self, action: #selector(EnergyViewController.refreshStatistics), forControlEvents: .ValueChanged)
         
         self.refreshStatistics()
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "refreshStatistics", name: UIApplicationDidBecomeActiveNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(EnergyViewController.refreshStatistics), name: UIApplicationDidBecomeActiveNotification, object: nil)
     }
     
     deinit {
@@ -67,7 +67,7 @@ class EnergyViewController : UITableViewController, HavingHealthStore {
     
     //MARK: - Reading HealthKit Data
     
-    private func refreshStatistics() {
+    @objc private func refreshStatistics() {
         self.refreshControl?.beginRefreshing()
         
         let energyConsumedType = HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDietaryEnergyConsumed)

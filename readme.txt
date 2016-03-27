@@ -16,7 +16,7 @@ REQUIREMENTS
 This sample requires capabilities that are only available when run on an iOS device. Note that in order to run this sample on a device, you will need to change the bundle identifier of the application.
 
 ### BUILD ###
-Xcode 7 beta 4
+Xcode 7.3
 
 ### RUNTIME ###
 iOS 8.0 or later, actual device
