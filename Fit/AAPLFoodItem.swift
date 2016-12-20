@@ -34,7 +34,7 @@ class AAPLFoodItem: NSObject {
         super.init()
     }
     
-    override func isEqual(object: AnyObject?) -> Bool {
+    override func isEqual(_ object: Any?) -> Bool {
         if let other = object as? AAPLFoodItem {
             return other.joules == self.joules && self.name == other.name
         }

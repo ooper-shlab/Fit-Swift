@@ -49,25 +49,25 @@ class AAPLFoodPickerViewController: UITableViewController {
     
     //MARK: - UITableViewDataSource
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.foodItems.count
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        return tableView.dequeueReusableCellWithIdentifier(AAPLFoodPickerViewControllerTableViewCellIdentifier, forIndexPath: indexPath)
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        return tableView.dequeueReusableCell(withIdentifier: AAPLFoodPickerViewControllerTableViewCellIdentifier, for: indexPath)
     }
     
-    override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         let foodItem = self.foodItems[indexPath.row]
         
         cell.textLabel!.text = foodItem.name
         
-        cell.detailTextLabel!.text = energyFormatter.stringFromJoules(foodItem.joules)
+        cell.detailTextLabel!.text = energyFormatter.string(fromJoules: foodItem.joules)
     }
     
     //MARK: - Convenience
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == AAPLFoodPickerViewControllerUnwindSegueIdentifier {
             let indexPathForSelectedRow = self.tableView.indexPathForSelectedRow!
             
@@ -75,11 +75,11 @@ class AAPLFoodPickerViewController: UITableViewController {
         }
     }
     
-    lazy var energyFormatter: NSEnergyFormatter = {
+    lazy var energyFormatter: EnergyFormatter = {
         
-        let formatter = NSEnergyFormatter()
-        formatter.unitStyle = .Long
-        formatter.forFoodEnergyUse = true
+        let formatter = EnergyFormatter()
+        formatter.unitStyle = .long
+        formatter.isForFoodEnergyUse = true
         formatter.numberFormatter.maximumFractionDigits = 2
         
         return formatter

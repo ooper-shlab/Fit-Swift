@@ -18,13 +18,13 @@
 import UIKit
 import HealthKit
 
-enum MyError: ErrorType {case Err}
+enum MyError: Error {case err}
 
 // A mapping of logical sections of the table view to actual indexes.
 enum AAPLProfileViewControllerTableViewIndex: Int {
-    case Age = 0
-    case Height
-    case Weight
+    case age = 0
+    case height
+    case weight
 }
 
 
@@ -44,7 +44,7 @@ class AAPLProfileViewController: UITableViewController, HavingHealthStore {
     @IBOutlet private weak var weightUnitLabel: UILabel!
     
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         // Set up an HKHealthStore, asking the user for read/write permissions. The profile view controller is the
@@ -54,14 +54,14 @@ class AAPLProfileViewController: UITableViewController, HavingHealthStore {
         if HKHealthStore.isHealthDataAvailable() {
             let writeDataTypes = self.dataTypesToWrite()
             let readDataTypes = self.dataTypesToRead()
-            self.healthStore?.requestAuthorizationToShareTypes(writeDataTypes, readTypes: readDataTypes) {success, error in
+            self.healthStore?.requestAuthorization(toShare: writeDataTypes, read: readDataTypes) {success, error in
                 if !success {
-                    NSLog("You didn't allow HealthKit to access these read/write data types. In your app, try to handle this error gracefully when a user decides not to provide access. The error was: %@. If you're using a simulator, try it on a device.", error!)
+                    NSLog("You didn't allow HealthKit to access these read/write data types. In your app, try to handle this error gracefully when a user decides not to provide access. The error was: \(error!). If you're using a simulator, try it on a device.")
                     
                     return
                 }
                 
-                dispatch_async(dispatch_get_main_queue()) {
+                DispatchQueue.main.async {
                     // Update the user interface based on the current user's health information.
                     self.updateUsersAgeLabel()
                     self.updateUsersHeightLabel()
@@ -75,22 +75,22 @@ class AAPLProfileViewController: UITableViewController, HavingHealthStore {
     
     // Returns the types of data that Fit wishes to write to HealthKit.
     private func dataTypesToWrite() -> Set<HKSampleType> {
-        let dietaryCalorieEnergyType = HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDietaryEnergyConsumed)!
-        let activeEnergyBurnType = HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierActiveEnergyBurned)!
-        let heightType = HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierHeight)!
-        let weightType = HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierBodyMass)!
+        let dietaryCalorieEnergyType = HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.dietaryEnergyConsumed)!
+        let activeEnergyBurnType = HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.activeEnergyBurned)!
+        let heightType = HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.height)!
+        let weightType = HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.bodyMass)!
         
         return [dietaryCalorieEnergyType, activeEnergyBurnType, heightType, weightType]
     }
     
     // Returns the types of data that Fit wishes to read from HealthKit.
     private func dataTypesToRead() -> Set<HKObjectType> {
-        let dietaryCalorieEnergyType = HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDietaryEnergyConsumed)!
-        let activeEnergyBurnType = HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierActiveEnergyBurned)!
-        let heightType = HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierHeight)!
-        let weightType = HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierBodyMass)!
-        let birthdayType = HKObjectType.characteristicTypeForIdentifier(HKCharacteristicTypeIdentifierDateOfBirth)!
-        let biologicalSexType = HKObjectType.characteristicTypeForIdentifier(HKCharacteristicTypeIdentifierBiologicalSex)!
+        let dietaryCalorieEnergyType = HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.dietaryEnergyConsumed)!
+        let activeEnergyBurnType = HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.activeEnergyBurned)!
+        let heightType = HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.height)!
+        let weightType = HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.bodyMass)!
+        let birthdayType = HKObjectType.characteristicType(forIdentifier: HKCharacteristicTypeIdentifier.dateOfBirth)!
+        let biologicalSexType = HKObjectType.characteristicType(forIdentifier: HKCharacteristicTypeIdentifier.biologicalSex)!
         
         return [dietaryCalorieEnergyType, activeEnergyBurnType, heightType, weightType, birthdayType, biologicalSexType]
     }
@@ -102,15 +102,15 @@ class AAPLProfileViewController: UITableViewController, HavingHealthStore {
         self.ageUnitLabel.text = NSLocalizedString("Age (yrs)", comment: "")
         
         do {
-            guard let dateOfBirth = try self.healthStore?.dateOfBirth() else {throw MyError.Err}
+            guard let dateOfBirth = try self.healthStore?.dateOfBirth() else {throw MyError.err}
             // Compute the age of the user.
-            let now = NSDate()
+            let now = Date()
             
-            let ageComponents = NSCalendar.currentCalendar().components(.Year, fromDate: dateOfBirth, toDate: now, options: .WrapComponents)
+            let ageComponents = (Calendar.current as NSCalendar).components(.year, from: dateOfBirth, to: now, options: .wrapComponents)
             
-            let usersAge = ageComponents.year
+            let usersAge = ageComponents.year!
             
-            self.ageValueLabel.text = NSNumberFormatter.localizedStringFromNumber(usersAge, numberStyle: .NoStyle)
+            self.ageValueLabel.text = NumberFormatter.localizedString(from: usersAge as NSNumber, number: .none)
         } catch _ {
             NSLog("Either an error occured fetching the user's age information or none has been stored yet. In your app, try to handle this gracefully.")
             
@@ -120,33 +120,33 @@ class AAPLProfileViewController: UITableViewController, HavingHealthStore {
     
     private func updateUsersHeightLabel() {
         // Fetch user's default height unit in inches.
-        let lengthFormatter = NSLengthFormatter()
-        lengthFormatter.unitStyle = NSFormattingUnitStyle.Long
+        let lengthFormatter = LengthFormatter()
+        lengthFormatter.unitStyle = Formatter.UnitStyle.long
         
-        let heightFormatterUnit = NSLengthFormatterUnit.Inch
-        let heightUnitString = lengthFormatter.unitStringFromValue(10, unit: heightFormatterUnit)
+        let heightFormatterUnit = LengthFormatter.Unit.inch
+        let heightUnitString = lengthFormatter.unitString(fromValue: 10, unit: heightFormatterUnit)
         let localizedHeightUnitDescriptionFormat = NSLocalizedString("Height (%@)", comment: "")
         
         self.heightUnitLabel.text = String(format: localizedHeightUnitDescriptionFormat, heightUnitString)
         
-        let heightType = HKQuantityType.quantityTypeForIdentifier(HKQuantityTypeIdentifierHeight)!
+        let heightType = HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.height)!
         
         // Query to get the user's latest height, if it exists.
         self.healthStore?.aapl_mostRecentQuantitySampleOfType(heightType, predicate: nil) {mostRecentQuantity, error in
             if mostRecentQuantity == nil {
                 NSLog("Either an error occured fetching the user's height information or none has been stored yet. In your app, try to handle this gracefully.")
                 
-                dispatch_async(dispatch_get_main_queue()) {
+                DispatchQueue.main.async {
                     self.heightValueLabel.text = NSLocalizedString("Not available", comment: "")
                 }
             } else {
                 // Determine the height in the required unit.
-                let heightUnit = HKUnit.inchUnit()
-                let usersHeight = mostRecentQuantity!.doubleValueForUnit(heightUnit)
+                let heightUnit = HKUnit.inch()
+                let usersHeight = mostRecentQuantity!.doubleValue(for: heightUnit)
                 
                 // Update the user interface.
-                dispatch_async(dispatch_get_main_queue()) {
-                    self.heightValueLabel.text = NSNumberFormatter.localizedStringFromNumber(usersHeight, numberStyle: NSNumberFormatterStyle.NoStyle)
+                DispatchQueue.main.async {
+                    self.heightValueLabel.text = NumberFormatter.localizedString(from: usersHeight as NSNumber, number: NumberFormatter.Style.none)
                 }
             }
         }
@@ -154,33 +154,33 @@ class AAPLProfileViewController: UITableViewController, HavingHealthStore {
     
     private func updateUsersWeightLabel() {
         // Fetch the user's default weight unit in pounds.
-        let massFormatter = NSMassFormatter()
-        massFormatter.unitStyle = .Long
+        let massFormatter = MassFormatter()
+        massFormatter.unitStyle = .long
         
-        let weightFormatterUnit = NSMassFormatterUnit.Pound
-        let weightUnitString = massFormatter.unitStringFromValue(10, unit: weightFormatterUnit)
+        let weightFormatterUnit = MassFormatter.Unit.pound
+        let weightUnitString = massFormatter.unitString(fromValue: 10, unit: weightFormatterUnit)
         let localizedWeightUnitDescriptionFormat = NSLocalizedString("Weight (%@)", comment: "")
         
         self.weightUnitLabel.text = String(format:localizedWeightUnitDescriptionFormat, weightUnitString)
         
         // Query to get the user's latest weight, if it exists.
-        let weightType = HKQuantityType.quantityTypeForIdentifier(HKQuantityTypeIdentifierBodyMass)!
+        let weightType = HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.bodyMass)!
         
         self.healthStore?.aapl_mostRecentQuantitySampleOfType(weightType, predicate: nil) {mostRecentQuantity, error in
             if mostRecentQuantity == nil {
                 NSLog("Either an error occured fetching the user's weight information or none has been stored yet. In your app, try to handle this gracefully.")
                 
-                dispatch_async(dispatch_get_main_queue()) {
+                DispatchQueue.main.async {
                     self.weightValueLabel.text = NSLocalizedString("Not available", comment: "")
                 }
             } else {
                 // Determine the weight in the required unit.
-                let weightUnit = HKUnit.poundUnit()
-                let usersWeight = mostRecentQuantity!.doubleValueForUnit(weightUnit)
+                let weightUnit = HKUnit.pound()
+                let usersWeight = mostRecentQuantity!.doubleValue(for: weightUnit)
                 
                 // Update the user interface.
-                dispatch_async(dispatch_get_main_queue()) {
-                    self.weightValueLabel.text = NSNumberFormatter.localizedStringFromNumber(usersWeight, numberStyle: .NoStyle)
+                DispatchQueue.main.async {
+                    self.weightValueLabel.text = NumberFormatter.localizedString(from: usersWeight as NSNumber, number: .none)
                 }
             }
         }
@@ -188,105 +188,102 @@ class AAPLProfileViewController: UITableViewController, HavingHealthStore {
     
     //MARK: - Writing HealthKit Data
     
-    private func saveHeightIntoHealthStore(height: Double) {
+    private func saveHeightIntoHealthStore(_ height: Double) {
         // Save the user's height into HealthKit.
-        let inchUnit = HKUnit.inchUnit()
+        let inchUnit = HKUnit.inch()
         let heightQuantity = HKQuantity(unit: inchUnit, doubleValue: height)
         
-        let heightType = HKQuantityType.quantityTypeForIdentifier(HKQuantityTypeIdentifierHeight)!
-        let now = NSDate()
+        let heightType = HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.height)!
+        let now = Date()
         
-        let heightSample = HKQuantitySample(type: heightType, quantity: heightQuantity, startDate: now, endDate: now)
+        let heightSample = HKQuantitySample(type: heightType, quantity: heightQuantity, start: now, end: now)
         
-        self.healthStore?.saveObject(heightSample) {success, error in
+        self.healthStore?.save(heightSample, withCompletion: {success, error in
             if !success {
-                NSLog("An error occured saving the height sample %@. In your app, try to handle this gracefully. The error was: %@.", heightSample, error!)
+                NSLog("An error occured saving the height sample \(heightSample). In your app, try to handle this gracefully. The error was: \(error!).")
                 abort()
             }
             
             self.updateUsersHeightLabel()
-        }
+        }) 
     }
     
-    private func saveWeightIntoHealthStore(weight: Double) {
+    private func saveWeightIntoHealthStore(_ weight: Double) {
         // Save the user's weight into HealthKit.
-        let poundUnit = HKUnit.poundUnit()
+        let poundUnit = HKUnit.pound()
         let weightQuantity = HKQuantity(unit: poundUnit, doubleValue: weight)
         
-        let weightType = HKQuantityType.quantityTypeForIdentifier(HKQuantityTypeIdentifierBodyMass)!
-        let now = NSDate()
+        let weightType = HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.bodyMass)!
+        let now = Date()
         
-        let weightSample = HKQuantitySample(type: weightType, quantity: weightQuantity, startDate: now, endDate: now)
+        let weightSample = HKQuantitySample(type: weightType, quantity: weightQuantity, start: now, end: now)
         
-        self.healthStore?.saveObject(weightSample) {success, error in
+        self.healthStore?.save(weightSample, withCompletion: {success, error in
             if !success {
-                NSLog("An error occured saving the weight sample %@. In your app, try to handle this gracefully. The error was: %@.", weightSample, error!)
+                NSLog("An error occured saving the weight sample \(weightSample). In your app, try to handle this gracefully. The error was: \(error!).")
                 abort()
             }
             
             self.updateUsersWeightLabel()
-        }
+        }) 
     }
     
     //MARK: - UITableViewDelegate
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        guard let index = AAPLProfileViewControllerTableViewIndex(rawValue: indexPath.row)
-            
-            // We won't allow people to change their date of birth, so ignore selection of the age cell.
-            where index != .Age else {return}
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let index = AAPLProfileViewControllerTableViewIndex(rawValue: indexPath.row), index != .age else {return}
         
         // Set up variables based on what row the user has selected.
         var title: String!
-        var valueChangedHandler: (Double->Void)!
+        var valueChangedHandler: ((Double)->Void)!
         
-        if index == .Height {
+        if index == .height {
             title = NSLocalizedString("Your Height", comment: "")
             
             valueChangedHandler = self.saveHeightIntoHealthStore
-        } else if index == .Weight {
+        } else if index == .weight {
             title = NSLocalizedString("Your Weight", comment: "")
             
             valueChangedHandler = self.saveWeightIntoHealthStore
         }
         
         // Create an alert controller to present.
-        let alertController = UIAlertController(title: title, message: nil, preferredStyle: .Alert)
+        let alertController = UIAlertController(title: title, message: nil, preferredStyle: .alert)
         
         // Add the text field to let the user enter a numeric value.
-        alertController.addTextFieldWithConfigurationHandler {textField in
+        alertController.addTextField {textField in
             // Only allow the user to enter a valid number.
-            textField.keyboardType = .DecimalPad
+            textField.keyboardType = .decimalPad
         }
         
         // Create the "OK" button.
         let okTitle = NSLocalizedString("OK", comment: "")
-        let okAction = UIAlertAction(title: okTitle, style: .Default) {action in
+        let okAction = UIAlertAction(title: okTitle, style: .default) {action in
             let textField = alertController.textFields?.first
             
             let value = Double(textField?.text ?? "0")!
             
             valueChangedHandler(value)
             
-            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            tableView.deselectRow(at: indexPath, animated: true)
         }
         
         alertController.addAction(okAction)
         
         // Create the "Cancel" button.
         let cancelTitle = NSLocalizedString("Cancel", comment: "")
-        let cancelAction = UIAlertAction(title: cancelTitle, style: .Cancel) {action in
-            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        let cancelAction = UIAlertAction(title: cancelTitle, style: .cancel) {action in
+            tableView.deselectRow(at: indexPath, animated: true)
         }
         
         alertController.addAction(cancelAction)
         
         // Present the alert controller.
-        self.presentViewController(alertController, animated: true, completion: nil)
+        self.present(alertController, animated: true, completion: nil)
     }
     
     //MARK: - Convenience
     
-    private lazy var numberFormatter: NSNumberFormatter = NSNumberFormatter()
+    private lazy var numberFormatter: NumberFormatter = NumberFormatter()
     
 }

@@ -36,37 +36,37 @@ class AAPLJournalViewController: UITableViewController, HavingHealthStore {
         
         self.updateJournal()
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(AAPLJournalViewController.updateJournal), name: UIApplicationDidBecomeActiveNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(AAPLJournalViewController.updateJournal), name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
     }
     
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationDidBecomeActiveNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
     }
     
     //MARK: - Reading HealthKit Data
     
     @objc private func updateJournal() {
-        let calendar = NSCalendar.currentCalendar()
+        let calendar = Calendar.current
         
-        let now = NSDate()
+        let now = Date()
         
-        let components = calendar.components([.Year, .Month, .Day], fromDate: now)
+        let components = (calendar as NSCalendar).components([.year, .month, .day], from: now)
         
-        let startDate = calendar.dateFromComponents(components)
+        let startDate = calendar.date(from: components)
         
-        let endDate = calendar.dateByAddingUnit(.Day, value: 1, toDate: startDate!, options: [])
+        let endDate = (calendar as NSCalendar).date(byAdding: .day, value: 1, to: startDate!, options: [])
         
-        let foodType = HKObjectType.correlationTypeForIdentifier(HKCorrelationTypeIdentifierFood)!
+        let foodType = HKObjectType.correlationType(forIdentifier: HKCorrelationTypeIdentifier.food)!
         
-        let predicate = HKQuery.predicateForSamplesWithStartDate(startDate, endDate: endDate, options: .None)
+        let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: HKQueryOptions())
         
         let query = HKSampleQuery(sampleType: foodType, predicate: predicate, limit: Int(HKObjectQueryNoLimit), sortDescriptors: nil) {query, results, error in
             guard let results = results else {
-                NSLog("An error occured fetching the user's tracked food. In your app, try to handle this gracefully. The error was: %@.", error!)
+                NSLog("An error occured fetching the user's tracked food. In your app, try to handle this gracefully. The error was: \(error!).")
                 abort()
             }
             
-            dispatch_async(dispatch_get_main_queue()) {
+            DispatchQueue.main.async {
                 self.foodItems.removeAll()
                 
                 for foodCorrelation in results as! [HKCorrelation] {
@@ -81,91 +81,91 @@ class AAPLJournalViewController: UITableViewController, HavingHealthStore {
             }
         }
         
-        self.healthStore?.executeQuery(query)
+        self.healthStore?.execute(query)
     }
     
-    private func foodItemFromFoodCorrelation(foodCorrelation: HKCorrelation) -> AAPLFoodItem {
+    private func foodItemFromFoodCorrelation(_ foodCorrelation: HKCorrelation) -> AAPLFoodItem {
         // Fetch the name fo the food.
         let foodName = foodCorrelation.metadata![HKMetadataKeyFoodType] as! String
         
         // Fetch the total energy from the food.
-        let energyConsumedType = HKQuantityType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDietaryEnergyConsumed)!
-        let energyConsumedSamples = foodCorrelation.objectsForType(energyConsumedType)
+        let energyConsumedType = HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.dietaryEnergyConsumed)!
+        let energyConsumedSamples = foodCorrelation.objects(for: energyConsumedType)
         
         // Note that we only have one energy consumed sample correlation (for Fit specifically).
         let energyConsumedSample = energyConsumedSamples.first! as! HKQuantitySample
         
         let energyQuantityConsumed = energyConsumedSample.quantity
         
-        let joules = energyQuantityConsumed.doubleValueForUnit(HKUnit.jouleUnit())
+        let joules = energyQuantityConsumed.doubleValue(for: HKUnit.joule())
         
         return AAPLFoodItem(name: foodName, joules: joules)
     }
     
     //MARK: - Writing HealthKit Data
     
-    private func addFoodItem(foodItem: AAPLFoodItem) {
+    private func addFoodItem(_ foodItem: AAPLFoodItem) {
         // Create a new food correlation for the given food item.
         let foodCorrelationForFoodItem = self.foodCorrelationForFoodItem(foodItem)
         
-        self.healthStore?.saveObject(foodCorrelationForFoodItem) {success, error in
-            dispatch_async(dispatch_get_main_queue()) {
+        self.healthStore?.save(foodCorrelationForFoodItem, withCompletion: {success, error in
+            DispatchQueue.main.async {
                 if success {
-                    self.foodItems.insert(foodItem, atIndex: 0)
+                    self.foodItems.insert(foodItem, at: 0)
                     
-                    let indexPathForInsertedFoodItem = NSIndexPath(forRow: 0, inSection: 0)
+                    let indexPathForInsertedFoodItem = IndexPath(row: 0, section: 0)
                     
-                    self.tableView.insertRowsAtIndexPaths([indexPathForInsertedFoodItem], withRowAnimation: UITableViewRowAnimation.Automatic)
+                    self.tableView.insertRows(at: [indexPathForInsertedFoodItem], with: UITableViewRowAnimation.automatic)
                 } else {
-                    NSLog("An error occured saving the food %@. In your app, try to handle this gracefully. The error was: %@.", foodItem.name, error!)
+                    NSLog("An error occured saving the food \(foodItem.name). In your app, try to handle this gracefully. The error was: \(error!).")
                     
                     abort()
                 }
             }
-        }
+        }) 
     }
     
-    private func foodCorrelationForFoodItem(foodItem: AAPLFoodItem) -> HKCorrelation {
-        let now = NSDate()
+    private func foodCorrelationForFoodItem(_ foodItem: AAPLFoodItem) -> HKCorrelation {
+        let now = Date()
         
-        let energyQuantityConsumed = HKQuantity(unit:HKUnit.jouleUnit(), doubleValue: foodItem.joules)
+        let energyQuantityConsumed = HKQuantity(unit:HKUnit.joule(), doubleValue: foodItem.joules)
         
-        let energyConsumedType = HKQuantityType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDietaryEnergyConsumed)!
+        let energyConsumedType = HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.dietaryEnergyConsumed)!
         
-        let energyConsumedSample = HKQuantitySample(type: energyConsumedType, quantity: energyQuantityConsumed, startDate: now, endDate: now)
+        let energyConsumedSample = HKQuantitySample(type: energyConsumedType, quantity: energyQuantityConsumed, start: now, end: now)
         let energyConsumedSamples: Set<HKSample> = [energyConsumedSample]
         
-        let foodType = HKObjectType.correlationTypeForIdentifier(HKCorrelationTypeIdentifierFood)!
+        let foodType = HKObjectType.correlationType(forIdentifier: HKCorrelationTypeIdentifier.food)!
         
-        let foodCorrelationMetadata: [String: AnyObject] = [HKMetadataKeyFoodType: foodItem.name]
+        let foodCorrelationMetadata: [String: AnyObject] = [HKMetadataKeyFoodType: foodItem.name as AnyObject]
         
-        let foodCorrelation = HKCorrelation(type: foodType, startDate: now, endDate: now, objects: energyConsumedSamples, metadata: foodCorrelationMetadata)
+        let foodCorrelation = HKCorrelation(type: foodType, start: now, end: now, objects: energyConsumedSamples, metadata: foodCorrelationMetadata)
         
         return foodCorrelation
     }
     
     //MARK: - UITableViewDelegate
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.foodItems.count
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        return tableView.dequeueReusableCellWithIdentifier(AAPLJournalViewControllerTableViewCellReuseIdentifier, forIndexPath: indexPath)
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        return tableView.dequeueReusableCell(withIdentifier: AAPLJournalViewControllerTableViewCellReuseIdentifier, for: indexPath)
     }
     
-    override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         let foodItem = self.foodItems[indexPath.row]
         
         cell.textLabel!.text = foodItem.name
         
-        cell.detailTextLabel!.text = energyFormatter.stringFromJoules(foodItem.joules)
+        cell.detailTextLabel!.text = energyFormatter.string(fromJoules: foodItem.joules)
     }
     
     //MARK: - Segue Interaction
     
-    @IBAction func performUnwindSegue(segue: UIStoryboardSegue) {
-        let foodPickerViewController = segue.sourceViewController as! AAPLFoodPickerViewController
+    @IBAction func performUnwindSegue(_ segue: UIStoryboardSegue) {
+        let foodPickerViewController = segue.source as! AAPLFoodPickerViewController
         
         let selectedFoodItem = foodPickerViewController.selectedFoodItem!
         
@@ -174,10 +174,10 @@ class AAPLJournalViewController: UITableViewController, HavingHealthStore {
     
     //MARK: - Convenience
     
-    private lazy var energyFormatter: NSEnergyFormatter = {
-        let formatter = NSEnergyFormatter()
-        formatter.unitStyle = .Long
-        formatter.forFoodEnergyUse = true
+    private lazy var energyFormatter: EnergyFormatter = {
+        let formatter = EnergyFormatter()
+        formatter.unitStyle = .long
+        formatter.isForFoodEnergyUse = true
         formatter.numberFormatter.maximumFractionDigits = 2
         
         return formatter

@@ -20,7 +20,7 @@ import HealthKit
 extension HKHealthStore {
     
     // Fetches the single most recent quantity of the specified type.
-    func aapl_mostRecentQuantitySampleOfType(quantityType: HKQuantityType, predicate: NSPredicate?, completion: ((HKQuantity?, NSError?)->Void)?) {
+    func aapl_mostRecentQuantitySampleOfType(_ quantityType: HKQuantityType, predicate: NSPredicate?, completion: ((HKQuantity?, Error?)->Void)?) {
         let timeSortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierEndDate, ascending: false)
         
         // Since we are interested in retrieving the user's latest sample, we sort the samples in descending order, and set the limit to 1. We are not filtering the data, and so the predicate is set to nil.
@@ -40,7 +40,7 @@ extension HKHealthStore {
             }
         }
         
-        self.executeQuery(query)
+        self.execute(query)
     }
     
 }
