@@ -10,16 +10,16 @@
 		3EC2BF711964B1AB0097E8FD /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3EC2BF701964B1AB0097E8FD /* Storyboard.storyboard */; };
 		4E120CB31935421000FDB265 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4E120CB51935421000FDB265 /* Localizable.strings */; };
 		4ED4B80119283674002C7E33 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4ED4B80019283674002C7E33 /* Images.xcassets */; };
-		D73DB3D11B6252DA00FB6200 /* AAPLFoodItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73DB3D01B6252DA00FB6200 /* AAPLFoodItem.swift */; };
-		D73DB3D31B6254D900FB6200 /* AAPLFoodPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73DB3D21B6254D900FB6200 /* AAPLFoodPickerViewController.swift */; };
-		D73DB3D51B62588300FB6200 /* AAPLJournalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73DB3D41B62588300FB6200 /* AAPLJournalViewController.swift */; };
-		D73DB3D71B62946D00FB6200 /* AAPLProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73DB3D61B62946D00FB6200 /* AAPLProfileViewController.swift */; };
-		D73DB3D91B6297F400FB6200 /* AAPLAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73DB3D81B6297F400FB6200 /* AAPLAppDelegate.swift */; };
-		D77FCBD61B646A3300946BC6 /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = D77FCBD51B646A3300946BC6 /* LICENSE.txt */; };
-		D77FCBD81B646A6A00946BC6 /* readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = D77FCBD71B646A6A00946BC6 /* readme.txt */; };
-		D7A0ED8B19F1C9C5001B0D62 /* AAPLEnergyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A0ED8A19F1C9C5001B0D62 /* AAPLEnergyViewController.swift */; };
-		D7A0ED8D19F1CAA8001B0D62 /* HKHealthStore+AAPLExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A0ED8C19F1CAA8001B0D62 /* HKHealthStore+AAPLExtensions.swift */; };
-		D7F5B8C31B63EDA300EE2C75 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D7F5B8C21B63EDA300EE2C75 /* Launch Screen.storyboard */; };
+		B55E84921DADB86400987431 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B55E84911DADB86400987431 /* Launch Screen.storyboard */; };
+		D774C3F21E08BAA500635358 /* readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = D774C3F01E08BAA500635358 /* readme.txt */; };
+		D774C3F31E08BAA500635358 /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = D774C3F11E08BAA500635358 /* LICENSE.txt */; };
+		D774C3F61E08BB1300635358 /* AAPLAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D774C3F41E08BB1300635358 /* AAPLAppDelegate.swift */; };
+		D774C3F71E08BB1300635358 /* HKHealthStore+AAPLExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D774C3F51E08BB1300635358 /* HKHealthStore+AAPLExtensions.swift */; };
+		D774C3F91E08BB2700635358 /* AAPLProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D774C3F81E08BB2700635358 /* AAPLProfileViewController.swift */; };
+		D774C3FD1E08BB4300635358 /* AAPLFoodItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D774C3FA1E08BB4300635358 /* AAPLFoodItem.swift */; };
+		D774C3FE1E08BB4300635358 /* AAPLFoodPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D774C3FB1E08BB4300635358 /* AAPLFoodPickerViewController.swift */; };
+		D774C3FF1E08BB4300635358 /* AAPLJournalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D774C3FC1E08BB4300635358 /* AAPLJournalViewController.swift */; };
+		D774C4011E08BB5A00635358 /* AAPLEnergyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D774C4001E08BB5A00635358 /* AAPLEnergyViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,16 +30,16 @@
 		4ED4B7F519283674002C7E33 /* Fit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Fit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4ED4B7F919283674002C7E33 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4ED4B80019283674002C7E33 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		D73DB3D01B6252DA00FB6200 /* AAPLFoodItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AAPLFoodItem.swift; sourceTree = "<group>"; };
-		D73DB3D21B6254D900FB6200 /* AAPLFoodPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AAPLFoodPickerViewController.swift; sourceTree = "<group>"; };
-		D73DB3D41B62588300FB6200 /* AAPLJournalViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AAPLJournalViewController.swift; sourceTree = "<group>"; };
-		D73DB3D61B62946D00FB6200 /* AAPLProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AAPLProfileViewController.swift; sourceTree = "<group>"; };
-		D73DB3D81B6297F400FB6200 /* AAPLAppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AAPLAppDelegate.swift; sourceTree = "<group>"; };
-		D77FCBD51B646A3300946BC6 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
-		D77FCBD71B646A6A00946BC6 /* readme.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = readme.txt; sourceTree = "<group>"; };
-		D7A0ED8A19F1C9C5001B0D62 /* AAPLEnergyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AAPLEnergyViewController.swift; sourceTree = "<group>"; };
-		D7A0ED8C19F1CAA8001B0D62 /* HKHealthStore+AAPLExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "HKHealthStore+AAPLExtensions.swift"; sourceTree = "<group>"; };
-		D7F5B8C21B63EDA300EE2C75 /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		B55E84911DADB86400987431 /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		D774C3F01E08BAA500635358 /* readme.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = readme.txt; sourceTree = "<group>"; };
+		D774C3F11E08BAA500635358 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
+		D774C3F41E08BB1300635358 /* AAPLAppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AAPLAppDelegate.swift; sourceTree = "<group>"; };
+		D774C3F51E08BB1300635358 /* HKHealthStore+AAPLExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "HKHealthStore+AAPLExtensions.swift"; sourceTree = "<group>"; };
+		D774C3F81E08BB2700635358 /* AAPLProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AAPLProfileViewController.swift; sourceTree = "<group>"; };
+		D774C3FA1E08BB4300635358 /* AAPLFoodItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AAPLFoodItem.swift; sourceTree = "<group>"; };
+		D774C3FB1E08BB4300635358 /* AAPLFoodPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AAPLFoodPickerViewController.swift; sourceTree = "<group>"; };
+		D774C3FC1E08BB4300635358 /* AAPLJournalViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AAPLJournalViewController.swift; sourceTree = "<group>"; };
+		D774C4001E08BB5A00635358 /* AAPLEnergyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AAPLEnergyViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,9 +56,9 @@
 		4ED4B7EB19283674002C7E33 = {
 			isa = PBXGroup;
 			children = (
-				D77FCBD71B646A6A00946BC6 /* readme.txt */,
-				D77FCBD51B646A3300946BC6 /* LICENSE.txt */,
+				D774C3F11E08BAA500635358 /* LICENSE.txt */,
 				3E38FDAA192C534F00A50A71 /* README.md */,
+				D774C3F01E08BAA500635358 /* readme.txt */,
 				4ED4B7F719283674002C7E33 /* Fit */,
 				4ED4B7F619283674002C7E33 /* Products */,
 			);
@@ -76,15 +76,15 @@
 			isa = PBXGroup;
 			children = (
 				3EC2BF701964B1AB0097E8FD /* Storyboard.storyboard */,
-				D7F5B8C21B63EDA300EE2C75 /* Launch Screen.storyboard */,
 				3E731F06195208A9002A1E80 /* Fit.entitlements */,
-				D73DB3D81B6297F400FB6200 /* AAPLAppDelegate.swift */,
-				D7A0ED8C19F1CAA8001B0D62 /* HKHealthStore+AAPLExtensions.swift */,
+				D774C3F41E08BB1300635358 /* AAPLAppDelegate.swift */,
+				D774C3F51E08BB1300635358 /* HKHealthStore+AAPLExtensions.swift */,
 				4ED6CAD119287EE0004BAD02 /* Age, Height, and Weight */,
 				4ED6CAD219287EEC004BAD02 /* Journal */,
 				4ED6CAD319287EFF004BAD02 /* Energy */,
 				4ED4B80019283674002C7E33 /* Images.xcassets */,
 				4ED4B7F819283674002C7E33 /* Supporting Files */,
+				B55E84911DADB86400987431 /* Launch Screen.storyboard */,
 			);
 			path = Fit;
 			sourceTree = "<group>";
@@ -101,7 +101,7 @@
 		4ED6CAD119287EE0004BAD02 /* Age, Height, and Weight */ = {
 			isa = PBXGroup;
 			children = (
-				D73DB3D61B62946D00FB6200 /* AAPLProfileViewController.swift */,
+				D774C3F81E08BB2700635358 /* AAPLProfileViewController.swift */,
 			);
 			name = "Age, Height, and Weight";
 			sourceTree = "<group>";
@@ -109,9 +109,9 @@
 		4ED6CAD219287EEC004BAD02 /* Journal */ = {
 			isa = PBXGroup;
 			children = (
-				D73DB3D41B62588300FB6200 /* AAPLJournalViewController.swift */,
-				D73DB3D21B6254D900FB6200 /* AAPLFoodPickerViewController.swift */,
-				D73DB3D01B6252DA00FB6200 /* AAPLFoodItem.swift */,
+				D774C3FC1E08BB4300635358 /* AAPLJournalViewController.swift */,
+				D774C3FB1E08BB4300635358 /* AAPLFoodPickerViewController.swift */,
+				D774C3FA1E08BB4300635358 /* AAPLFoodItem.swift */,
 			);
 			name = Journal;
 			sourceTree = "<group>";
@@ -119,7 +119,7 @@
 		4ED6CAD319287EFF004BAD02 /* Energy */ = {
 			isa = PBXGroup;
 			children = (
-				D7A0ED8A19F1C9C5001B0D62 /* AAPLEnergyViewController.swift */,
+				D774C4001E08BB5A00635358 /* AAPLEnergyViewController.swift */,
 			);
 			name = Energy;
 			sourceTree = "<group>";
@@ -161,8 +161,6 @@
 		4ED4B7EC19283674002C7E33 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftMigration = 0700;
-				LastSwiftUpdateCheck = 0700;
 				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = Apple;
 				TargetAttributes = {
@@ -198,11 +196,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D77FCBD81B646A6A00946BC6 /* readme.txt in Resources */,
+				D774C3F31E08BAA500635358 /* LICENSE.txt in Resources */,
+				D774C3F21E08BAA500635358 /* readme.txt in Resources */,
 				4E120CB31935421000FDB265 /* Localizable.strings in Resources */,
 				4ED4B80119283674002C7E33 /* Images.xcassets in Resources */,
-				D7F5B8C31B63EDA300EE2C75 /* Launch Screen.storyboard in Resources */,
-				D77FCBD61B646A3300946BC6 /* LICENSE.txt in Resources */,
+				B55E84921DADB86400987431 /* Launch Screen.storyboard in Resources */,
 				3EC2BF711964B1AB0097E8FD /* Storyboard.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -214,13 +212,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D73DB3D51B62588300FB6200 /* AAPLJournalViewController.swift in Sources */,
-				D73DB3D71B62946D00FB6200 /* AAPLProfileViewController.swift in Sources */,
-				D73DB3D91B6297F400FB6200 /* AAPLAppDelegate.swift in Sources */,
-				D7A0ED8D19F1CAA8001B0D62 /* HKHealthStore+AAPLExtensions.swift in Sources */,
-				D73DB3D11B6252DA00FB6200 /* AAPLFoodItem.swift in Sources */,
-				D73DB3D31B6254D900FB6200 /* AAPLFoodPickerViewController.swift in Sources */,
-				D7A0ED8B19F1C9C5001B0D62 /* AAPLEnergyViewController.swift in Sources */,
+				D774C3F71E08BB1300635358 /* HKHealthStore+AAPLExtensions.swift in Sources */,
+				D774C3FF1E08BB4300635358 /* AAPLJournalViewController.swift in Sources */,
+				D774C3FD1E08BB4300635358 /* AAPLFoodItem.swift in Sources */,
+				D774C3FE1E08BB4300635358 /* AAPLFoodPickerViewController.swift in Sources */,
+				D774C3F61E08BB1300635358 /* AAPLAppDelegate.swift in Sources */,
+				D774C4011E08BB5A00635358 /* AAPLEnergyViewController.swift in Sources */,
+				D774C3F91E08BB2700635358 /* AAPLProfileViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -336,7 +334,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = Fit/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.example.apple-samplecode.Fit";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.example.apple-samplecode.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = Fit;
 				PROVISIONING_PROFILE = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -357,7 +355,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = Fit/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.example.apple-samplecode.Fit";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.example.apple-samplecode.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = Fit;
 				PROVISIONING_PROFILE = "";
 				SWIFT_VERSION = 3.0;

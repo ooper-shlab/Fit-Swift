@@ -1,11 +1,9 @@
 /*
-    Copyright (C) 2014 Apple Inc. All Rights Reserved.
+    Copyright (C) 2016 Apple Inc. All Rights Reserved.
     See LICENSE.txt for this sample’s licensing information
     
     Abstract:
-    
-                Contains shared helper methods on HKHealthStore that are specific to Fit's use cases.
-            
+    Contains shared helper methods on HKHealthStore that are specific to Fit's use cases.
 */
 
 #import "HKHealthStore+AAPLExtensions.h"
