@@ -83,7 +83,7 @@ class EnergyViewController : UITableViewController, HavingHealthStore {
                 self.fetchTotalBasalBurn {basalEnergyBurn, error in
                     
                     if basalEnergyBurn == nil {
-                        NSLog("An error occurred trying to compute the basal energy burn. In your app, handle this gracefully. Error: \(error)")
+                        NSLog("An error occurred trying to compute the basal energy burn. In your app, handle this gracefully. Error: \(error?.localizedDescription ?? "nil")")
                     }
                     
                     // Update the UI with all of the fetched values.

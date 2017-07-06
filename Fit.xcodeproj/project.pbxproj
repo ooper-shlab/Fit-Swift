@@ -11,7 +11,7 @@
 		4E120CB31935421000FDB265 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4E120CB51935421000FDB265 /* Localizable.strings */; };
 		4ED4B80119283674002C7E33 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4ED4B80019283674002C7E33 /* Images.xcassets */; };
 		B55E84921DADB86400987431 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B55E84911DADB86400987431 /* Launch Screen.storyboard */; };
-		D774C3F21E08BAA500635358 /* readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = D774C3F01E08BAA500635358 /* readme.txt */; };
+		D774C3F21E08BAA500635358 /* README2.md in Resources */ = {isa = PBXBuildFile; fileRef = D774C3F01E08BAA500635358 /* README2.md */; };
 		D774C3F31E08BAA500635358 /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = D774C3F11E08BAA500635358 /* LICENSE.txt */; };
 		D774C3F61E08BB1300635358 /* AAPLAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D774C3F41E08BB1300635358 /* AAPLAppDelegate.swift */; };
 		D774C3F71E08BB1300635358 /* HKHealthStore+AAPLExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D774C3F51E08BB1300635358 /* HKHealthStore+AAPLExtensions.swift */; };
@@ -31,7 +31,7 @@
 		4ED4B7F919283674002C7E33 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4ED4B80019283674002C7E33 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		B55E84911DADB86400987431 /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
-		D774C3F01E08BAA500635358 /* readme.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = readme.txt; sourceTree = "<group>"; };
+		D774C3F01E08BAA500635358 /* README2.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README2.md; sourceTree = "<group>"; };
 		D774C3F11E08BAA500635358 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
 		D774C3F41E08BB1300635358 /* AAPLAppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AAPLAppDelegate.swift; sourceTree = "<group>"; };
 		D774C3F51E08BB1300635358 /* HKHealthStore+AAPLExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "HKHealthStore+AAPLExtensions.swift"; sourceTree = "<group>"; };
@@ -58,7 +58,7 @@
 			children = (
 				D774C3F11E08BAA500635358 /* LICENSE.txt */,
 				3E38FDAA192C534F00A50A71 /* README.md */,
-				D774C3F01E08BAA500635358 /* readme.txt */,
+				D774C3F01E08BAA500635358 /* README2.md */,
 				4ED4B7F719283674002C7E33 /* Fit */,
 				4ED4B7F619283674002C7E33 /* Products */,
 			);
@@ -197,7 +197,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D774C3F31E08BAA500635358 /* LICENSE.txt in Resources */,
-				D774C3F21E08BAA500635358 /* readme.txt in Resources */,
+				D774C3F21E08BAA500635358 /* README2.md in Resources */,
 				4E120CB31935421000FDB265 /* Localizable.strings in Resources */,
 				4ED4B80119283674002C7E33 /* Images.xcassets in Resources */,
 				B55E84921DADB86400987431 /* Launch Screen.storyboard in Resources */,
