@@ -104,7 +104,7 @@ class AAPLProfileViewController: UITableViewController, HavingHealthStore {
             // Compute the age of the user.
             let now = Date()
             
-            let ageComponents = (Calendar.current as NSCalendar).components(.year, from: dateOfBirth, to: now, options: .wrapComponents)
+            let ageComponents = Calendar.current.dateComponents([.year], from: dateOfBirth, to: now)
             
             let usersAge = ageComponents.year!
             

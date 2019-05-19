@@ -56,11 +56,11 @@ class EnergyViewController : UITableViewController, HavingHealthStore {
         
         self.refreshStatistics()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(EnergyViewController.refreshStatistics), name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(EnergyViewController.refreshStatistics), name: UIApplication.didBecomeActiveNotification, object: nil)
     }
     
     deinit {
-        NotificationCenter.default.removeObserver(self, name:NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
+        NotificationCenter.default.removeObserver(self, name:UIApplication.didBecomeActiveNotification, object: nil)
     }
     
     //MARK: - Reading HealthKit Data
@@ -73,11 +73,11 @@ class EnergyViewController : UITableViewController, HavingHealthStore {
         
         // First, fetch the sum of energy consumed samples from HealthKit. Populate this by creating your
         // own food logging app or using the food journal view controller.
-        self.fetchSumOfSamplesTodayForType(energyConsumedType!, unit: HKUnit.joule()) {totalJoulesConsumed, error in
+        self.fetchSumOfSamplesTodayForType(energyConsumedType!, unit: .joule()) {totalJoulesConsumed, error in
             
             // Next, fetch the sum of active energy burned from HealthKit. Populate this by creating your
             // own calorie tracking app or the Health app.
-            self.fetchSumOfSamplesTodayForType(activeEnergyBurnType!, unit: HKUnit.joule()) {activeEnergyBurned, error in
+            self.fetchSumOfSamplesTodayForType(activeEnergyBurnType!, unit: .joule()) {activeEnergyBurned, error in
                 
                 // Last, calculate the user's basal energy burn so far today.
                 self.fetchTotalBasalBurn {basalEnergyBurn, error in
@@ -90,7 +90,7 @@ class EnergyViewController : UITableViewController, HavingHealthStore {
                     DispatchQueue.main.async {
                         self.activeEnergyBurned = activeEnergyBurned
                         
-                        self.restingEnergyBurned = basalEnergyBurn?.doubleValue(for: HKUnit.joule()) ?? 0.0
+                        self.restingEnergyBurned = basalEnergyBurn?.doubleValue(for: .joule()) ?? 0.0
                         
                         self.energyConsumed = totalJoulesConsumed
                         
@@ -174,11 +174,12 @@ class EnergyViewController : UITableViewController, HavingHealthStore {
         // a given prefix. Both of these are equally valid, however one may be more convenient for a given
         // use case.
         let heightInCentimeters = height.doubleValue(for: HKUnit(from: "cm"))
-        let weightInKilograms = weight.doubleValue(for: HKUnit.gramUnit(with: .kilo))
+        let weightInKilograms = weight.doubleValue(for: .gramUnit(with: .kilo))
         //
         let now = Date()
         //### I couldn't have found an equivalent of `options: .wrapComponents` in Calendar methods.
-        let ageComponents = (Calendar.current as NSCalendar).components(.year, from: dateOfBirth, to: now, options: .wrapComponents)
+        //### So, decided to ignore it.
+        let ageComponents = Calendar.current.dateComponents([.year], from: dateOfBirth, to: now)
         let ageInYears = ageComponents.year
         
         // BMR is calculated in kilocalories per day.
@@ -186,14 +187,14 @@ class EnergyViewController : UITableViewController, HavingHealthStore {
         
         // Figure out how much of today has completed so we know how many kilocalories the user has burned.
         let startOfToday = Calendar.current.startOfDay(for: now)
-        let endOfToday = (Calendar.current as NSCalendar).date(byAdding: .day, value: 1, to: startOfToday, options: [])
+        let endOfToday = Calendar.current.date(byAdding: .day, value: 1, to: startOfToday)
         
         let secondsInDay = endOfToday!.timeIntervalSince(startOfToday)
         let percentOfDayComplete = now.timeIntervalSince(startOfToday) / secondsInDay
         
         let kilocaloriesBurned = BMR * percentOfDayComplete
         
-        return HKQuantity(unit: HKUnit.kilocalorie(), doubleValue: kilocaloriesBurned)
+        return HKQuantity(unit: .kilocalorie(), doubleValue: kilocaloriesBurned)
     }
     
     //MARK: - Convenience
@@ -204,7 +205,7 @@ class EnergyViewController : UITableViewController, HavingHealthStore {
         let now = Date()
         
         let startDate = calendar.startOfDay(for: now)
-        let endDate = (calendar as NSCalendar).date(byAdding: .day, value: 1, to: startDate, options: [])
+        let endDate = calendar.date(byAdding: .day, value: 1, to: startDate)
         
         return HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: .strictStartDate)
     }

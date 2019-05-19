@@ -34,11 +34,11 @@ class AAPLJournalViewController: UITableViewController, HavingHealthStore {
         
         self.updateJournal()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(AAPLJournalViewController.updateJournal), name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(AAPLJournalViewController.updateJournal), name: UIApplication.didBecomeActiveNotification, object: nil)
     }
     
     deinit {
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIApplication.didBecomeActiveNotification, object: nil)
     }
     
     //MARK: - Reading HealthKit Data
@@ -48,11 +48,11 @@ class AAPLJournalViewController: UITableViewController, HavingHealthStore {
         
         let now = Date()
         
-        let components = (calendar as NSCalendar).components([.year, .month, .day], from: now)
+        let components = calendar.dateComponents([.year, .month, .day], from: now)
         
         let startDate = calendar.date(from: components)
         
-        let endDate = (calendar as NSCalendar).date(byAdding: .day, value: 1, to: startDate!, options: [])
+        let endDate = calendar.date(byAdding: .day, value: 1, to: startDate!)
         
         let foodType = HKObjectType.correlationType(forIdentifier: HKCorrelationTypeIdentifier.food)!
         
@@ -95,7 +95,7 @@ class AAPLJournalViewController: UITableViewController, HavingHealthStore {
         
         let energyQuantityConsumed = energyConsumedSample.quantity
         
-        let joules = energyQuantityConsumed.doubleValue(for: HKUnit.joule())
+        let joules = energyQuantityConsumed.doubleValue(for: .joule())
         
         return AAPLFoodItem(name: foodName, joules: joules)
     }
@@ -113,7 +113,7 @@ class AAPLJournalViewController: UITableViewController, HavingHealthStore {
                     
                     let indexPathForInsertedFoodItem = IndexPath(row: 0, section: 0)
                     
-                    self.tableView.insertRows(at: [indexPathForInsertedFoodItem], with: UITableViewRowAnimation.automatic)
+                    self.tableView.insertRows(at: [indexPathForInsertedFoodItem], with: .automatic)
                 } else {
                     NSLog("An error occured saving the food \(foodItem.name). In your app, try to handle this gracefully. The error was: \(error!).")
                     
@@ -126,7 +126,7 @@ class AAPLJournalViewController: UITableViewController, HavingHealthStore {
     private func foodCorrelationForFoodItem(_ foodItem: AAPLFoodItem) -> HKCorrelation {
         let now = Date()
         
-        let energyQuantityConsumed = HKQuantity(unit:HKUnit.joule(), doubleValue: foodItem.joules)
+        let energyQuantityConsumed = HKQuantity(unit: .joule(), doubleValue: foodItem.joules)
         
         let energyConsumedType = HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.dietaryEnergyConsumed)!
         
@@ -135,7 +135,7 @@ class AAPLJournalViewController: UITableViewController, HavingHealthStore {
         
         let foodType = HKObjectType.correlationType(forIdentifier: HKCorrelationTypeIdentifier.food)!
         
-        let foodCorrelationMetadata: [String: AnyObject] = [HKMetadataKeyFoodType: foodItem.name as AnyObject]
+        let foodCorrelationMetadata: [String: Any] = [HKMetadataKeyFoodType: foodItem.name]
         
         let foodCorrelation = HKCorrelation(type: foodType, start: now, end: now, objects: energyConsumedSamples, metadata: foodCorrelationMetadata)
         
